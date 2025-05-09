@@ -1,11 +1,9 @@
-### New Note Sequence Diagram
+### Single Page Application Sequence Diagram
 
 ```mermaid
 sequenceDiagram
     participant browser
     participant server
-
-    Note right of browser: The browser executes the Redirect
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
     activate server
