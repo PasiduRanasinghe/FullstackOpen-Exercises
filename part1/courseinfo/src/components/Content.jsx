@@ -2,9 +2,9 @@ import Part from "./Part";
 function Content(props) {
   return (
     <>
-      <Part part={props.parts.part1} />
-      <Part part={props.parts.part2} />
-      <Part part={props.parts.part3} />
+      <Part part={props.parts[0]} />
+      <Part part={props.parts[1]} />
+      <Part part={props.parts[2]} />
     </>
   );
 }
