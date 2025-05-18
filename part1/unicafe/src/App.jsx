@@ -8,7 +8,7 @@ function App() {
   const [positive, setPositive] = useState(0);
   const [average, setAverage] = useState(0);
 
-  const handleCalc = (valueGood, valueNeutral, valueBad) => {
+  const handleStatistics = (valueGood, valueNeutral, valueBad) => {
     setAll(valueGood + valueNeutral + valueBad);
     setPositive((good / all) * 100);
     setAverage((1 * good + 0 * neutral + -1 * bad) / all);
@@ -16,17 +16,17 @@ function App() {
   const handleClickGood = () => {
     const updatedGood = good + 1;
     setGood(updatedGood);
-    handleCalc(updatedGood, neutral, bad);
+    handleStatistics(updatedGood, neutral, bad);
   };
   const handleClickNeutral = () => {
     const updatedNeutral = neutral + 1;
     setNeutral(updatedNeutral);
-    handleCalc(good, updatedNeutral, bad);
+    handleStatistics(good, updatedNeutral, bad);
   };
   const handleClickBad = () => {
     const updatedBad = bad + 1;
     setBad(updatedBad);
-    handleCalc(good, neutral, updatedBad);
+    handleStatistics(good, neutral, updatedBad);
   };
 
   return (
