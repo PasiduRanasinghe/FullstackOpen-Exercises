@@ -8,12 +8,18 @@ const Statistics = (props) => {
   return (
     <>
       <h1>statistic</h1>
-      <p>good {props.good}</p>
-      <p>neutral {props.neutral}</p>
-      <p>bad {props.bad}</p>
-      <p>all {all}</p>
-      <p>average {average}</p>
-      <p>positive {positive}%</p>
+      {all === 0 ? (
+        <p>No feedback given</p>
+      ) : (
+        <>
+          <p>good {props.good}</p>
+          <p>neutral {props.neutral}</p>
+          <p>bad {props.bad}</p>
+          <p>all {all}</p>
+          <p>average {average}</p>
+          <p>positive {positive}%</p>
+        </>
+      )}
     </>
   );
 };
@@ -24,16 +30,13 @@ function App() {
   const [bad, setBad] = useState(0);
 
   const handleClickGood = () => {
-    const updatedGood = good + 1;
-    setGood(updatedGood);
+    setGood(good + 1);
   };
   const handleClickNeutral = () => {
-    const updatedNeutral = neutral + 1;
-    setNeutral(updatedNeutral);
+    setNeutral(neutral + 1);
   };
   const handleClickBad = () => {
-    const updatedBad = bad + 1;
-    setBad(updatedBad);
+    setBad(bad + 1);
   };
 
   return (
