@@ -49,6 +49,7 @@ const App = () => {
   return (
     <>
       {courses.map((course) => (
+        //Course component 
         <Course key={course.id} course={course} />
       ))}
     </>
