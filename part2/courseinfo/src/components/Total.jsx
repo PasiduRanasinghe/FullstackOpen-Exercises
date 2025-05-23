@@ -4,7 +4,7 @@ const Total = ({ parts }) => {
   return (
     <>
       <p>
-        <b>Total of  {totalExercises} exercises</b>
+        <b>Total of {totalExercises} exercises</b>
       </p>
     </>
   );
