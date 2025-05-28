@@ -7,20 +7,35 @@ const App = () => {
     { name: "Dan Abramov", number: "12-43-234345", id: 3 },
     { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
   ]);
+  const [filteredPersons, setFilteredPersons] = useState("");
   const [newName, setNewName] = useState("");
-  const [filteredPhones, setFilteredPhones] = useState(persons);
-  const [newNumber, setNewNumber] = useState();
-  
-  
+  const [showAll, setShowAll] = useState(true);
+  const [newNumber, setNewNumber] = useState("");
+
+  //handle the showing of persons when it using search
+  const personToShow = showAll ? persons : filteredPersons;
+
+
   //check for name matches and return true if there is a match
   const checkPersonsMatches = (name) => {
-    const hasMatch = persons.some((person) => person.name === name);
+    const hasMatch = persons.some(
+      (person) => person.name.localeCompare(name) === 0
+    );
     return hasMatch;
   };
 
   //handle input element data name
   const handleFilter = (event) => {
-    setFilteredPhones(persons.filter(person => person.name.includes(event.target.value)))
+    if (event.target.value === "") {
+      setShowAll(true);
+    } else {
+      setFilteredPersons( persons.filter((person) => {
+        return person.name
+          .toLowerCase()
+          .includes(String(event.target.value).toLowerCase());
+      }))
+      setShowAll(false);
+    }
   };
   //handle input element data name
   const handleOnchangeInputName = (event) => {
@@ -61,7 +76,6 @@ const App = () => {
           number:{" "}
           <input
             required
-            type="number"
             value={newNumber}
             onChange={handleOnchangeInputNumber}
           />
@@ -72,7 +86,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       {/* display persons in persons array */}
-      {filteredPhones.map((person) => (
+      {personToShow.map((person) => (
         <div key={person.id}>
           {person.name} {person.number}
         </div>
