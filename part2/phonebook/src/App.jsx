@@ -12,12 +12,12 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
 
   //get data from json server
-  const hook = () => {
+
+  useEffect(() => {
     axios.get("http://localhost:3001/persons").then((response) => {
       setPersons(response.data);
     });
-  };
-  useEffect(hook, []);
+  }, []);
 
   //handle the showing of persons when it using search
   const personToShow = showAll ? persons : filteredPersons;
