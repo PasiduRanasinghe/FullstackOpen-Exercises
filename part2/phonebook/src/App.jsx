@@ -60,10 +60,18 @@ const App = () => {
     if (checkPersonsMatches(newName)) {
       window.alert(`${newName} is already added to phonebook`);
     } else {
-      setPersons([
-        ...persons,
-        { name: newName, number: newNumber, id: persons.length + 1 },
-      ]);
+      //send data to save to backend server
+      axios
+        .post("http://localhost:3001/persons", {
+          name: newName,
+          number: newNumber,
+          id: persons.length + 1,
+        })
+        .then((response) => {
+          console.log(response);
+          //add data to the persons variable
+          setPersons([...persons, response.data]);
+        });
     }
     setNewName(""); //clear the input element value
     setNewNumber(""); //clear the input element value
