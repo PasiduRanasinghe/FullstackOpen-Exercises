@@ -79,7 +79,9 @@ const App = () => {
 
   //handel the delete button click and remove it from the array
   const handleDelete = (person) => {
-    window.confirm(`Delete ${person.name} ?`);
+   if( !window.confirm(`Delete ${person.name} ?`)){
+    return
+   }
     personService.delete(person.id).then((response) => {
       setPersons(persons.filter((p) => p.id !== response.data.id));
     });
