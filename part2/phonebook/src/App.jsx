@@ -65,7 +65,7 @@ const App = () => {
         .create({
           name: newName,
           number: newNumber,
-          id: persons.length + 1,
+          id: `${persons.length + 1}`,
         })
         .then((response) => {
           console.log(response);
@@ -75,6 +75,14 @@ const App = () => {
     }
     setNewName(""); //clear the input element value
     setNewNumber(""); //clear the input element value
+  };
+
+  //handel the delete button click and remove it from the array
+  const handleDelete = (person) => {
+    window.confirm(`Delete ${person.name} ?`);
+    personService.delete(person.id).then((response) => {
+      setPersons(persons.filter((p) => p.id !== response.data.id));
+    });
   };
   return (
     <div>
@@ -94,7 +102,7 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <Persons persons={personToShow} />
+      <Persons persons={personToShow} handleDelete={handleDelete} />
     </div>
   );
 };
