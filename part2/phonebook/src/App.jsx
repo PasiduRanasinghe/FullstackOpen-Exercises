@@ -14,19 +14,21 @@ const App = () => {
   //get data from json server
 
   useEffect(() => {
-    personService.getAll().then((response) => {
-      setPersons(response.data);
+    personService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
     });
   }, []);
 
   //handle the showing of persons when it using search
   const personToShow = showAll ? persons : filteredPersons;
 
-  //check for name matches and return true if there is a match
-  const checkPersonsMatches = (name) => {
-    const hasMatch = persons.some(
+  //check for name matches and return person object if there is a match
+  const checkPersonsMatch = (name) => {
+    const hasMatch = persons.find(
       (person) => person.name.localeCompare(name) === 0
     );
+    // console.log(hasMatch);
+
     return hasMatch;
   };
 
@@ -57,8 +59,31 @@ const App = () => {
   //handle the add button click and add value to the array
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (checkPersonsMatches(newName)) {
-      window.alert(`${newName} is already added to phonebook`);
+
+    //check for matches in name
+    const matchedPerson = checkPersonsMatch(newName);
+    if (matchedPerson) {
+      //ask if the user want to change the number
+      if (
+        !window.confirm(
+          `${newName} is already added to phonebook, replace the old number with a new one`
+        )
+      ) {
+        //if not end
+        return;
+      }
+
+      //if true change the number
+      const changedPerson = { ...matchedPerson, number: newNumber };
+      personService
+        .update(matchedPerson.id, changedPerson)
+        .then((personData) => {
+          setPersons(
+            persons.map((note) =>
+              note.id === matchedPerson.id ? personData : note
+            )
+          );
+        });
     } else {
       //send data to save to backend server
       personService
@@ -67,10 +92,9 @@ const App = () => {
           number: newNumber,
           id: `${persons.length + 1}`,
         })
-        .then((response) => {
-          console.log(response);
+        .then((personData) => {
           //add data to the persons variable
-          setPersons([...persons, response.data]);
+          setPersons([...persons, personData]);
         });
     }
     setNewName(""); //clear the input element value
@@ -79,11 +103,11 @@ const App = () => {
 
   //handel the delete button click and remove it from the array
   const handleDelete = (person) => {
-   if( !window.confirm(`Delete ${person.name} ?`)){
-    return
-   }
-    personService.delete(person.id).then((response) => {
-      setPersons(persons.filter((p) => p.id !== response.data.id));
+    if (!window.confirm(`Delete ${person.name} ?`)) {
+      return;
+    }
+    personService.delete(person.id).then((personData) => {
+      setPersons(persons.filter((p) => p.id !== personData.id));
     });
   };
   return (
