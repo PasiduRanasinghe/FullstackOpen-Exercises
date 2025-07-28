@@ -4,6 +4,7 @@ import Filter from "./components/Filter";
 import Persons from "./components/Persons";
 import personService from "./services/persons";
 import SuccessNotification from "./components/SuccessNotification";
+import ErrorNotification from "./components/errorNotification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -12,6 +13,7 @@ const App = () => {
   const [showAll, setShowAll] = useState(true);
   const [newNumber, setNewNumber] = useState("");
   const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   //get data from json server
 
@@ -60,10 +62,17 @@ const App = () => {
 
   //handle success notification
   const handleSuccessNotification = (message) => {
-    //notification
     setSuccessMessage(message);
     setTimeout(() => {
       setSuccessMessage(null);
+    }, 5000);
+  };
+
+  //handle error notification
+  const handleErrorNotification = (message) => {
+    setErrorMessage(message);
+    setTimeout(() => {
+      setErrorMessage(null);
     }, 5000);
   };
 
@@ -97,6 +106,12 @@ const App = () => {
           //notification
           handleSuccessNotification(
             `${personData.name}'s number changed to ${personData.number} `
+          );
+        })
+        // eslint-disable-next-line no-unused-vars
+        .catch((error) => {
+          handleErrorNotification(
+            `Information of ${matchedPerson.name} has already been removed from server`
           );
         });
     } else {
@@ -132,6 +147,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <SuccessNotification message={successMessage} />
+      <ErrorNotification message={errorMessage} />
       <Filter handleFilter={handleFilter} />
 
       <h2>Add a new</h2>

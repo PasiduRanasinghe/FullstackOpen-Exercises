@@ -1,5 +1,5 @@
 import React from "react";
-const successStyle = {
+const errorStyle = {
   color: "red",
   background: "lightgrey",
   fontSize: "20px",
@@ -12,7 +12,7 @@ function ErrorNotification({ message }) {
   if (message === null) {
     return null;
   }
-  return <div style={successStyle}>{message}</div>;
+  return <div style={errorStyle}>{message}</div>;
 }
 
 export default ErrorNotification;
