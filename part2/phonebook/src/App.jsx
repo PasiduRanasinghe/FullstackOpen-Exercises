@@ -79,8 +79,8 @@ const App = () => {
         .update(matchedPerson.id, changedPerson)
         .then((personData) => {
           setPersons(
-            persons.map((note) =>
-              note.id === matchedPerson.id ? personData : note
+            persons.map((person) =>
+              person.id === matchedPerson.id ? personData : person
             )
           );
         });
@@ -113,7 +113,6 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-
       <Filter handleFilter={handleFilter} />
 
       <h2>Add a new</h2>
