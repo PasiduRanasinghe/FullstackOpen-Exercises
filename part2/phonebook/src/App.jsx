@@ -3,6 +3,7 @@ import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
 import Persons from "./components/Persons";
 import personService from "./services/persons";
+import SuccessNotification from "./components/SuccessNotification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -10,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [showAll, setShowAll] = useState(true);
   const [newNumber, setNewNumber] = useState("");
+  const [successMessage, setSuccessMessage] = useState(null);
 
   //get data from json server
 
@@ -56,6 +58,15 @@ const App = () => {
     setNewNumber(event.target.value);
   };
 
+  //handle success notification
+  const handleSuccessNotification = (message) => {
+    //notification
+    setSuccessMessage(message);
+    setTimeout(() => {
+      setSuccessMessage(null);
+    }, 5000);
+  };
+
   //handle the add button click and add value to the array
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -83,6 +94,10 @@ const App = () => {
               person.id === matchedPerson.id ? personData : person
             )
           );
+          //notification
+          handleSuccessNotification(
+            `${personData.name}'s number changed to ${personData.number} `
+          );
         });
     } else {
       //send data to save to backend server
@@ -95,6 +110,9 @@ const App = () => {
         .then((personData) => {
           //add data to the persons variable
           setPersons([...persons, personData]);
+
+          //notification
+          handleSuccessNotification(`Added ${personData.name}`);
         });
     }
     setNewName(""); //clear the input element value
@@ -113,6 +131,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <SuccessNotification message={successMessage} />
       <Filter handleFilter={handleFilter} />
 
       <h2>Add a new</h2>
